@@ -60,11 +60,6 @@ flutter pub get
 flutter run
 ```
 
-## Roadmap
-
-- [ ] Introduce `Provider` for cleaner cross-widget state management
-- [ ] Possible 3D planet models/animations for the detail screen
-- [ ] Additional polish on transitions between the carousel and detail view
 ## Author
 
 Built by [Marwann255](https://github.com/Marwann255) as part of ongoing Flutter coursework and practice projects.
