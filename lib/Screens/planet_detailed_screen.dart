@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:space_app/utilites/app_buttons.dart';
 import 'package:space_app/utilites/page_view.dart';
+import 'package:space_app/utilites/planet_model.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../utilites/app_Constants.dart';
 import '../utilites/app_colors.dart';
@@ -27,7 +29,7 @@ class _planetDetailedState extends State<planetDetailed> {
 
   @override
   Widget build(BuildContext context) {
-    final int index = ModalRoute.of(context)!.settings.arguments as int;
+    final planet = ModalRoute.of(context)!.settings.arguments as PlanetModel;
     final screenHeight = MediaQuery.of(context).size.height;
     return AppScaffold(
       body: SingleChildScrollView(
@@ -42,7 +44,7 @@ class _planetDetailedState extends State<planetDetailed> {
                     Opacity(
                       opacity: 0.5,
                       child: Image.asset(
-                        "assets/Rectangle 4.png",
+                        AppConstants.halfPlanet,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -53,8 +55,8 @@ class _planetDetailedState extends State<planetDetailed> {
                             Colors.transparent,
                             AppColors.black.withOpacity(0.4),
                           ],
-                          begin: AlignmentGeometry.topCenter,
-                          end: AlignmentGeometry.bottomCenter,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                         ),
                       ),
                     ),
@@ -63,7 +65,7 @@ class _planetDetailedState extends State<planetDetailed> {
                       left: 0,
                       right: 0,
                       child: Text(
-                        AppConstants.planetNames[index],
+                        planet.name,
                         textAlign: TextAlign.center,
                         style: AppTextStyle.titleLarge,
                       ),
@@ -73,10 +75,9 @@ class _planetDetailedState extends State<planetDetailed> {
                       left: 0,
                       right: 0,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          AppConstants.planetTitle[AppConstants
-                              .planetNames[index]]!,
+                          planet.title,
                           textAlign: TextAlign.start,
                           style: AppTextStyle.titleLarge,
                         ),
@@ -89,7 +90,7 @@ class _planetDetailedState extends State<planetDetailed> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           ActionButton(
-                            icon: Icon(Icons.arrow_back),
+                            icon: const Icon(Icons.arrow_back),
                             onClick: () {
                               Navigator.pop(context);
                             },
@@ -106,63 +107,65 @@ class _planetDetailedState extends State<planetDetailed> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  child: AppConstants.planets[AppConstants.planetNames[index]],
+                  height: 350,
+                  child: planet.modelPath != null
+                      ? ModelViewer(
+                          src: planet.modelPath!,
+                          alt: "${planet.name} 3D Model",
+                          autoRotate: true,
+                          cameraControls: true,
+                          backgroundColor: Colors.transparent,
+                        )
+                      : Image.asset(planet.imagePath, fit: BoxFit.cover),
                 ),
                 SizedBox(height: 20),
                 Padding(
-                  // padding: const EdgeInsets.all(8.0),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
 
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("About", style: AppTextStyle.titleLarge),
-                      SizedBox(height: 10),
+                      const Text("About", style: AppTextStyle.titleLarge),
+                      const SizedBox(height: 10),
+                      Text(planet.description, style: AppTextStyle.bodyLarge),
+                      const SizedBox(height: 10),
                       Text(
-                        AppConstants.planetAboutDetailed[AppConstants
-                            .planetNames[index]]!,
-                        style: AppTextStyle.bodyLarge,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Distance from Sun (km) : " +
-                            "${AppConstants.planetDistanceFromTheSun[AppConstants.planetNames[index]]!}",
+                        "Distance from Sun (km) : ${planet.distanceFromSun}",
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Length of Day (hours) : " +
-                            "${AppConstants.lengthOfDay[AppConstants.planetNames[index]]!}",
+                        "Length of Day (hours) : ${planet.lengthOfDay}",
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Orbital Period (Earth years) : " +
-                            "${AppConstants.orbitalPeriod[AppConstants.planetNames[index]]!}",
+                        "Orbital Period (Earth years) : ${planet.orbitalPeriod}",
+
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Radius (km) : " +
-                            "${AppConstants.radius[AppConstants.planetNames[index]]!}",
+                        "Radius (km) : ${planet.radius}",
+
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Mass (kg) : " +
-                            "${AppConstants.mass[AppConstants.planetNames[index]]!}",
+                        "Mass (kg) : ${planet.mass}",
+
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Gravity (m/s²) : " +
-                            "${AppConstants.gravity[AppConstants.planetNames[index]]!}",
+                        "Gravity (m/s²) : ${planet.gravity}",
+
                         style: AppTextStyle.detailedText,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Surface Area (km²) : " +
-                            "${AppConstants.surfaceArea[AppConstants.planetNames[index]]!}",
+                        "Surface Area (km²) : ${planet.surfaceArea}",
+
                         style: AppTextStyle.detailedText,
                       ),
                     ],
@@ -170,7 +173,7 @@ class _planetDetailedState extends State<planetDetailed> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

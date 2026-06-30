@@ -20,7 +20,7 @@ class ExploreAppButtons extends StatelessWidget {
       onPressed: onClick,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.red,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(32),
@@ -31,15 +31,15 @@ class ExploreAppButtons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "${text} " + "$planetName",
-            style: TextStyle(
+            "$text $planetName",
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: AppColors.white,
             ),
           ),
-          Spacer(),
-          Icon(Icons.arrow_forward, color: AppColors.white, size: 20),
+          const Spacer(),
+          const Icon(Icons.arrow_forward, color: AppColors.white, size: 20),
         ],
       ),
     );
@@ -57,9 +57,9 @@ class ActionButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onClick,
       style: ElevatedButton.styleFrom(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         backgroundColor: AppColors.red,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         foregroundColor: AppColors.white,
         iconSize: 22,
       ),

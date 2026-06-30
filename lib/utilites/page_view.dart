@@ -7,8 +7,7 @@ import 'package:space_app/utilites/text_style.dart';
 import 'app_Constants.dart';
 
 class AppPageView extends StatefulWidget {
-  // final Map<String, Widget> planetImage;
-  final Map<String, Widget> planetImage;
+  final List<Widget> planetImage;
   final PageController pageController;
   final ValueChanged<int> onPageChanged;
 
@@ -23,16 +22,10 @@ class AppPageView extends StatefulWidget {
   State<AppPageView> createState() => _AppPageViewState();
 }
 
-// List<String> planetImageIndex = ["","","","","","","","","",];
-
 class _AppPageViewState extends State<AppPageView> {
-  static int currentPage = 0;
-  final PageController _pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final planetWidget = widget.planetImage.values.toList();
 
     return Column(
       children: [
@@ -48,7 +41,7 @@ class _AppPageViewState extends State<AppPageView> {
                   child: PageView(
                     controller: widget.pageController,
                     onPageChanged: widget.onPageChanged,
-                    children: planetWidget,
+                    children: widget.planetImage,
                   ),
                 ),
               ],

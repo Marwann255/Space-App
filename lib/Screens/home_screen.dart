@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:space_app/Screens/planet_detailed_screen.dart';
 import 'package:space_app/utilites/app_colors.dart';
 import 'package:space_app/utilites/app_scaffold.dart';
+import 'package:space_app/utilites/planet_model.dart';
 import 'package:space_app/utilites/text_style.dart';
 
 import '../utilites/app_Constants.dart';
@@ -8,7 +10,6 @@ import '../utilites/app_buttons.dart';
 import '../utilites/page_view.dart';
 
 class homeScreen extends StatefulWidget {
-  // String? routeName = "homeScreen";
   homeScreen({super.key});
 
   @override
@@ -16,7 +17,7 @@ class homeScreen extends StatefulWidget {
 }
 
 class _homeScreenState extends State<homeScreen> {
-  int _currentPage = 0;
+  int _planet = 0;
   final PageController _pageController = PageController();
 
   @override
@@ -40,7 +41,7 @@ class _homeScreenState extends State<homeScreen> {
                   Opacity(
                     opacity: 0.5,
                     child: Image.asset(
-                      "assets/Rectangle 4.png",
+                      AppConstants.halfPlanet,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -56,24 +57,24 @@ class _homeScreenState extends State<homeScreen> {
                       ),
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 10,
                     left: 0,
                     right: 0,
                     child: Text(
-                      "Explore",
+                      AppConstants.exploreText,
                       textAlign: TextAlign.center,
                       style: AppTextStyle.titleLarge,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     bottom: 20,
                     left: 0,
                     right: 0,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        "Which Planet \nWould You like to explore?",
+                        AppConstants.planetToExplore,
                         textAlign: TextAlign.start,
                         style: AppTextStyle.titleLarge,
                       ),
@@ -84,37 +85,39 @@ class _homeScreenState extends State<homeScreen> {
             ),
           ),
           AppPageView(
-            planetImage: AppConstants.planets,
+            planetImage: AppConstants.planet
+                .map((p) => Image.asset(p.imagePath, fit: BoxFit.cover))
+                .toList(),
             pageController: _pageController,
             onPageChanged: (index) {
               setState(() {
-                _currentPage = index;
+                _planet = index;
               });
             },
           ),
-          SizedBox(height: screenHeight*0.07),
+          SizedBox(height: screenHeight * 0.07),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ActionButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     onClick: () {
                       _pageController.previousPage(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                     },
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Center(
                     child: Text(
-                      AppConstants.planetNames[_currentPage],
-                      style: TextStyle(
+                      AppConstants.planet[_planet].name,
+                      style: const TextStyle(
                         color: AppColors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -122,12 +125,12 @@ class _homeScreenState extends State<homeScreen> {
                       textAlign: TextAlign.justify,
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   ActionButton(
-                    icon: Icon(Icons.arrow_forward),
+                    icon: const Icon(Icons.arrow_forward),
                     onClick: () {
                       _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                     },
@@ -136,22 +139,22 @@ class _homeScreenState extends State<homeScreen> {
               ),
             ),
           ),
-          SizedBox(height: screenHeight*0.05),
+          SizedBox(height: screenHeight * 0.05),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 24),
+                    padding: const EdgeInsets.only(bottom: 24),
                     child: ExploreAppButtons(
-                      text: AppConstants.buttonText,
-                      planetName: AppConstants.planetNames[_currentPage],
+                      text: AppConstants.exploreText,
+                      planetName: AppConstants.planet[_planet].name,
                       onClick: () {
                         Navigator.pushNamed(
                           context,
                           "planetDetailedScreen",
-                          arguments: _currentPage,
+                          arguments: AppConstants.planet[_planet],
                         );
                       },
                     ),
